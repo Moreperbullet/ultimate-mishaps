@@ -10,6 +10,7 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.blocks.environment.*;
+import mishaps.*;
 import mishaps.world.meta.*;
 import mishaps.gen.*;
 
@@ -23,8 +24,6 @@ public class MishapUnitType extends UnitType{
 
     /** Dodge chance, only for {@link mishaps.gen.Dodgec} units*/
     public float dodge = 0f;
-
-    static boolean canInvisibleDraw;
 
     @SuppressWarnings("unchecked")
     public MishapUnitType(String name){
@@ -50,13 +49,13 @@ public class MishapUnitType extends UnitType{
 
     @Override
     public void draw(Unit unit){
-        canInvisibleDraw = unit instanceof Invisiblec i && i.alphaLerp() > 0.00001f;
+        MishapGlobals.canInvisibleDraw = unit instanceof Invisiblec i && i.alphaLerp() > 0.00001f;
         super.draw(unit);
     }
 
     @Override
     public void drawMech(Mechc mech){
-        if(canInvisibleDraw){
+        if(MishapGlobals.canInvisibleDraw){
             Unit unit = (Unit)mech;
             applyColor(unit);
 
@@ -104,7 +103,7 @@ public class MishapUnitType extends UnitType{
 
     @Override
     public void drawSoftShadow(Unit unit){
-        if(canInvisibleDraw){
+        if(MishapGlobals.canInvisibleDraw){
             Invisiblec i = unit.as();
 
             Draw.color(0, 0, 0, 0.4f * fade(i));
@@ -119,7 +118,7 @@ public class MishapUnitType extends UnitType{
 
     @Override
     public void drawShadow(Unit unit){
-        if(canInvisibleDraw){
+        if(MishapGlobals.canInvisibleDraw){
             Invisiblec i = unit.as();
 
             float e = Mathf.clamp(unit.elevation, shadowElevation, 1f) * shadowElevationScl * (1f - unit.drownTime);
@@ -134,7 +133,7 @@ public class MishapUnitType extends UnitType{
 
     @Override
     public void applyColor(Unit unit){
-        if(canInvisibleDraw){
+        if(MishapGlobals.canInvisibleDraw){
             Invisiblec i = unit.as();
             float lerp = fade(i);
 
@@ -158,7 +157,7 @@ public class MishapUnitType extends UnitType{
     @Override
     public void applyOutlineColor(Unit unit){
         super.applyOutlineColor(unit);
-        if(canInvisibleDraw){
+        if(MishapGlobals.canInvisibleDraw){
             Invisiblec i = unit.as();
             Tmp.c1.set(Draw.getColor()).lerp(fadeColor, i.alphaLerp());
             Draw.color(Tmp.c1);
