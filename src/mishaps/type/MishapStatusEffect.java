@@ -61,7 +61,7 @@ public class MishapStatusEffect extends StatusEffect{
         }
         Draw.blend();
         Draw.mixcol();
-        if(mech != null) unit.trns(mechVector.x, mechVector.y);
+        if(mech != null) unit.trns(-mechVector.x, -mechVector.y);
         Draw.reset();
     }
 
