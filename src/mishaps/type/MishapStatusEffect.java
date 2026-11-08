@@ -13,6 +13,8 @@ import mishaps.gen.*;
 import mishaps.graphics.*;
 import mishaps.world.meta.*;
 
+import static mishaps.MishapGlobals.*;
+
 public class MishapStatusEffect extends StatusEffect{
 
     /** Damage percentage per second. Heals if negative.*/
@@ -42,16 +44,25 @@ public class MishapStatusEffect extends StatusEffect{
     public void drawInterfered(Unit unit){
         Draw.z(Layer.flyingUnit + 0.1f);
         Draw.blend(Blending.additive);
-        float rand = Mathf.random() / 2, a = Draw.getColorAlpha();
+        float rand = Mathf.random() / 2;
         Draw.mixcol(color, 1f);
         Draw.alpha(rand);
+        Mechc mech = unit instanceof Mechc m ? m : null;
+        if(mech != null){
+            //copied code from UnitType's draw function
+            mechVector.trns(mech.baseRotation(), 0f, Mathf.lerp(Mathf.sin(mech.walkExtend(true), 2f/Mathf.PI, 1) * unit.type.mechSideSway, 0f, unit.elevation));
+            mechVector.add(Tmp.v1.trns(mech.baseRotation() + 90, 0f, Mathf.lerp(Mathf.sin(mech.walkExtend(true), 1f/Mathf.PI, 1) * unit.type.mechFrontSway, 0f, unit.elevation)));
+
+            unit.trns(mechVector.x, mechVector.y);
+        }
         Draw.rect(unit.type.region, unit.x, unit.y, unit.rotation - 90);
         for(WeaponMount mount : unit.mounts){
             mount.weapon.drawOutline(unit, mount);
         }
         Draw.blend();
         Draw.mixcol();
-        Draw.alpha(a);
+        if(mech != null) unit.trns(mechVector.x, mechVector.y);
+        Draw.reset();
     }
 
     @Override
