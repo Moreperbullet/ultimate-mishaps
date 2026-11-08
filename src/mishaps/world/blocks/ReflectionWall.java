@@ -16,7 +16,7 @@ public class ReflectionWall extends Wall{
     @Override
     public void setStats(){
         super.setStats();
-        stats.add(MishapStats.special, Core.bundle.get("special-reflection"));
+        stats.add(MishapStats.special, Core.bundle.get("special.reflection"));
         stats.addPercent(MishapStats.reflectModNum, reflectMod);
         if(reflectCap > 0) stats.add(MishapStats.reflectCapNum, reflectCap, StatUnit.none);
     }
