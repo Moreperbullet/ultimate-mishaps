@@ -1,11 +1,11 @@
 {
-    "name": "overflown",
-    "displayName": "Overflown Mod",
+    "name": "mishaps",
+    "displayName": "Ultimate Mishaps",
     "description": "A java mod",
     "version": "0.0.1",
     "minGameVersion": "160.7",
     "author": "Moreperbullet",
     "java": true,
-    "main": "overflown.OverflownMod",
+    "main": "mishaps.MishapsMod",
     "softDependencies": [ "prog-mats" ]
 }
