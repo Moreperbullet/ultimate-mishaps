@@ -298,6 +298,8 @@ public class MishapBlocks{
             ambientSound = Sounds.loopHum;
             ambientSoundVolume = 0.06f;
 
+            outputItem = new ItemStack(MishapItems.aquamarine, 2);
+
             drawer = new DrawMulti(
                     new DrawRegion ("-bottom"),
                     new DrawLiquidTile(Liquids.slag, 2.1f),
