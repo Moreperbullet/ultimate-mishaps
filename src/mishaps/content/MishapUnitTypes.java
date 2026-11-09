@@ -509,7 +509,9 @@ public class MishapUnitTypes{
             drag = 0.04f;
             flying = true;
             health = 690;
-            engineOffset = 8f;
+
+            engineSize = 2.7f;
+            engineOffset = 7.5f;
     
             targetFlags = new BlockFlag[]{BlockFlag.generator, BlockFlag.battery, null};
             hitSize = 20;
@@ -518,7 +520,7 @@ public class MishapUnitTypes{
             weapons.add(
             new Weapon(acyrtho.name + "-weapon"){{
                 reload = 70f;
-                x = 10f;
+                x = 11f;
                 y = 0.5f;
                 top = false;
                 rotate = false;
@@ -549,7 +551,7 @@ public class MishapUnitTypes{
             new Weapon(acyrtho.name + "-weapon"){{
                 reload = 30f;
                 x = 7f;
-                y = 7f;
+                y = 8f;
                 top = false;
                 rotate = false;
                 layerOffset = -1f;
