@@ -29,9 +29,9 @@ public class MishapBlocks{
     hotCarbonStone, magmaCarbonStone, graphiticFloor, ceriseStone, redIceStone, shallowSlag, sunkenCoreZone, carbonPebbles, beryllicVent,
     redIceVent, ceriseVent, ceriseStoneWall, redGraphiticWall, ceriseBoulder, oreDiseaseFragments, oreAquamarine,
     //payloads
-    largePayloadConveyor, payloadBuilder, payloadBreaker, payloadPropulsionTower,
+    largePayloadConveyor, sConstructor, sDeconstructor, sPayloadLoader, sPayloadUnloader, payloadPropulsionTower,
     //crafters
-    plastaniumCrusher, diseaseExtractor, diseaseMixer,
+    plastaniumCrusher, diseaseExtractor, diseaseMixer, aquamarinator,
     //storage
     tankVault,
     //other
@@ -173,7 +173,7 @@ public class MishapBlocks{
             size = 5;
         }};
 
-        payloadBuilder = new Constructor("payload-builder"){{
+        sConstructor = new Constructor("s-constructor"){{
             requirements(Category.units, with(Items.silicon, 50, Items.graphite, 120, Items.thorium, 60));
             hasPower = true;
             buildSpeed = 0.8f;
@@ -195,12 +195,26 @@ public class MishapBlocks{
             );
         }};
 
-        payloadBreaker = new PayloadDeconstructor("payload-breaker"){{
+        sDeconstructor = new PayloadDeconstructor("s-deconstructor"){{
             requirements(Category.units, with(Items.silicon, 50, Items.metaglass, 100, Items.thorium, 60, Items.graphite, 80));
             itemCapacity = 100;
             consumePower(3f);
             size = 3;
             deconstructSpeed = 2f;
+        }};
+
+        sPayloadLoader = new PayloadLoader("s-payload-loader"){{
+            requirements(Category.units, with(Items.silicon, 50, Items.titanium, 70, Items.graphite, 50));
+            hasPower = true;
+            consumePower(3f);
+            size = 3;
+        }};
+
+        sPayloadUnloader = new PayloadUnloader("s-payload-loader"){{
+            requirements(Category.units, with(Items.silicon, 50, Items.titanium, 70, Items.graphite, 50));
+            hasPower = true;
+            consumePower(3f);
+            size = 3;
         }};
 
         payloadPropulsionTower = new PayloadMassDriver("payload-propulsion-tower"){{
@@ -267,6 +281,34 @@ public class MishapBlocks{
 
             consumePower(0.3f);
             consumeItem(MishapItems.diseaseFragments, 6);
+        }};
+
+        aquamarinator = new AttributeCrafter("aquamarinator"){{
+            requirements(Category.crafting, with(Items.titanium, 120, Items.silicon, 100, Items.plastanium, 40, Items.metaglass, 90));
+            floating = true;
+            craftTime = 150f;
+            baseEfficiency = 0f;
+            size = 4;
+            hasPower = true;
+            hasLiquids = true;
+            boostScale = 0.05f;
+            outputScale = 0.1f;
+            liquidCapacity = 80f;
+            itemCapacity = 40;
+            ambientSound = Sounds.loopHum;
+            ambientSoundVolume = 0.06f;
+
+            drawer = new DrawMulti(
+                    new DrawRegion ("-bottom"),
+                    new DrawLiquidTile(Liquids.slag, 2.1f),
+                    new DrawDefault(),
+                    new DrawGlowRegion(){{
+                        color = Pal.slagOrange;
+                    }}
+            );
+
+            consumePower(12f);
+            consumeLiquids(LiquidStack.with(Liquids.cryofluid, 20f / 60f, Liquids.slag, 21f / 60f));
         }};
 
         tankVault = new TankVault("tank-vault"){{

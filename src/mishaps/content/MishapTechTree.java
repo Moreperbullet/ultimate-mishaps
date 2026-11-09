@@ -83,10 +83,13 @@ public class MishapTechTree{
  
         vanillaNode(payloadConveyor, () -> {
             node(largePayloadConveyor, () -> {
-                node(payloadBuilder, Seq.with(
+                node(sConstructor, Seq.with(
                     new Research(mega)
                 ), () -> {
-                    node(payloadBreaker);
+                    node(sDeconstructor);
+                    node(sPayloadLoader, () -> {
+                        node(sPayloadUnloader);
+                    });
                 });
             });
         });

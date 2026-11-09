@@ -511,7 +511,7 @@ public class MishapUnitTypes{
             health = 690;
 
             engineSize = 2.7f;
-            engineOffset = 7.5f;
+            engineOffset = 12f;
     
             targetFlags = new BlockFlag[]{BlockFlag.generator, BlockFlag.battery, null};
             hitSize = 20;
