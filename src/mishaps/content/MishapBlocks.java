@@ -291,8 +291,9 @@ public class MishapBlocks{
             size = 4;
             hasPower = true;
             hasLiquids = true;
-            boostScale = 0.05f;
-            outputScale = 0.1f;
+            boostScale = 0.15f;
+            maxBoost = 2f;
+            minEfficiency = 0.01f;
             liquidCapacity = 80f;
             itemCapacity = 40;
             ambientSound = Sounds.loopHum;

@@ -57,6 +57,10 @@ public class MishapTechTree{
             });
         });
 
+        vanillaNode(surgeSmelter, () -> {
+            node(aquamarinator);
+        });
+
         vanillaNode(surgeTower, () -> {
             node(surgeLink);
         });
