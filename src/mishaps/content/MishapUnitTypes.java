@@ -476,7 +476,7 @@ public class MishapUnitTypes{
     
             weapons.add(new Weapon(name + "-weapon"){{
                 reload = 30f;
-                x = 3f;
+                x = 4f;
                 y = 2f;
                 rotate = true;
                 shake = 1f;
@@ -518,9 +518,11 @@ public class MishapUnitTypes{
             weapons.add(
             new Weapon(acyrtho.name + "-weapon"){{
                 reload = 70f;
-                x = 7f;
-                y = -2f;
-                rotate = true;
+                x = 10f;
+                y = 0.5f;
+                top = false;
+                rotate = false;
+                layerOffset = -1f;
                 shake = 1f;
                 inaccuracy = 2f;
                 velocityRnd = 0.2f;
@@ -546,9 +548,11 @@ public class MishapUnitTypes{
             }},
             new Weapon(acyrtho.name + "-weapon"){{
                 reload = 30f;
-                x = 2f;
-                y = 2f;
-                rotate = true;
+                x = 7f;
+                y = 7f;
+                top = false;
+                rotate = false;
+                layerOffset = -1f;
                 shake = 1f;
                 inaccuracy = 2f;
                 velocityRnd = 0.2f;
