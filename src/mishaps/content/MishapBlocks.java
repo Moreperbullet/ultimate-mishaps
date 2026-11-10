@@ -29,7 +29,7 @@ public class MishapBlocks{
     hotCarbonStone, magmaCarbonStone, graphiticFloor, ceriseStone, redIceStone, shallowSlag, sunkenCoreZone, carbonPebbles, beryllicVent,
     redIceVent, ceriseVent, ceriseStoneWall, redGraphiticWall, ceriseBoulder, oreDiseaseFragments, oreAquamarine,
     //payloads
-    largePayloadConveyor, sConstructor, sDeconstructor, sPayloadLoader, sPayloadUnloader, payloadPropulsionTower,
+    largePayloadConveyor, sConstructor, sDeconstructor, sPayloadLoader, sPayloadUnloader, payloadPropulsionTower, largeReinforcedPayloadConveyor,
     //crafters
     plastaniumCrusher, diseaseExtractor, diseaseMixer, aquamarinator,
     //storage
@@ -168,7 +168,6 @@ public class MishapBlocks{
         largePayloadConveyor = new PayloadConveyor("large-payload-conveyor"){{
             requirements(Category.units, with(Items.graphite, 30, Items.copper, 30, Items.titanium, 12));
             canOverdrive = false;
-            moveTime = 75f;
             payloadLimit = 4.5f;
             size = 5;
         }};
@@ -225,6 +224,15 @@ public class MishapBlocks{
             range = 1000f;
             maxPayloadSize = 3.5f;
             consumePower(6f);
+        }};
+
+        largeReinforcedPayloadConveyor = new PayloadConveyor("large-reinforced-payload-conveyor"){{
+            requirements(Category.units, with(Items.tungsten, 20, Items.thorium, 10));
+            moveTime = 35f;
+            canOverdrive = false;
+            payloadLimit = 4.5f;
+            size = 5;
+            underBullets = true;
         }};
 
         plastaniumCrusher = new GenericCrafter("plastanium-crusher"){{

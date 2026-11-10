@@ -137,6 +137,10 @@ public class MishapTechTree{
                 });
             });
         });
+
+        vanillaNode("erekir", reinforcedPayloadConveyor, () -> {
+            node(largeReinforcedPayloadConveyor);
+        });
     }
 
     private static void vanillaNode(UnlockableContent parent, Runnable children){
