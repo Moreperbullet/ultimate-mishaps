@@ -29,7 +29,7 @@ public class MishapBlocks{
     hotCarbonStone, magmaCarbonStone, graphiticFloor, ceriseStone, redIceStone, shallowSlag, sunkenCoreZone, carbonPebbles, beryllicVent,
     redIceVent, ceriseVent, ceriseStoneWall, redGraphiticWall, ceriseBoulder, oreDiseaseFragments, oreAquamarine,
     //payloads
-    largePayloadConveyor, sConstructor, sDeconstructor, sPayloadLoader, sPayloadUnloader, payloadPropulsionTower, largeReinforcedPayloadConveyor,
+    payloadForwarder, payloadDistributor, sConstructor, sDeconstructor, sPayloadLoader, sPayloadUnloader, payloadPropulsionTower, reinforcedPayloadForwarder, reinforcedPayloadDistributor,
     //crafters
     plastaniumCrusher, diseaseExtractor, diseaseMixer, aquamarinator,
     //storage
@@ -165,9 +165,18 @@ public class MishapBlocks{
             variants = 4;
         }};
 
-        largePayloadConveyor = new PayloadConveyor("large-payload-conveyor"){{
+        payloadForwarder = new PayloadConveyor("payload-forwarder"){{
             requirements(Category.units, with(Items.graphite, 30, Items.copper, 30, Items.titanium, 12));
             canOverdrive = false;
+            moveTime = 75f;
+            payloadLimit = 4.5f;
+            size = 5;
+        }};
+
+        payloadDistributor = new PayloadRouter("payload-distributor"){{
+            requirements(Category.units, with(Items.graphite, 45, Items.copper, 30, Items.titanium, 12));
+            canOverdrive = false;
+            moveTime = 75f;
             payloadLimit = 4.5f;
             size = 5;
         }};
@@ -226,10 +235,21 @@ public class MishapBlocks{
             consumePower(6f);
         }};
 
-        largeReinforcedPayloadConveyor = new PayloadConveyor("large-reinforced-payload-conveyor"){{
+        reinforcedPayloadForwarder = new PayloadConveyor("reinforced-payload-forwarder"){{
             requirements(Category.units, with(Items.tungsten, 20, Items.thorium, 10));
-            moveTime = 35f;
+            moveTime = 60f;
             canOverdrive = false;
+            health = 1400;
+            payloadLimit = 4.5f;
+            size = 5;
+            underBullets = true;
+        }};
+
+        reinforcedPayloadDistributor = new PayloadRouter("reinforced-payload-distributor"){{
+            requirements(Category.units, with(Items.tungsten, 35, Items.thorium, 15));
+            moveTime = 60f;
+            canOverdrive = false;
+            health = 1400;
             payloadLimit = 4.5f;
             size = 5;
             underBullets = true;

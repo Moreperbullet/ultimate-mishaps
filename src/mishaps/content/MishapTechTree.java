@@ -86,7 +86,7 @@ public class MishapTechTree{
         });
  
         vanillaNode(payloadConveyor, () -> {
-            node(largePayloadConveyor, () -> {
+            node(payloadForwarder, () -> {
                 node(sConstructor, Seq.with(
                     new Research(mega)
                 ), () -> {
@@ -139,7 +139,7 @@ public class MishapTechTree{
         });
 
         vanillaNode("erekir", reinforcedPayloadConveyor, () -> {
-            node(largeReinforcedPayloadConveyor);
+            node(reinforcedPayloadForwarder);
         });
     }
 

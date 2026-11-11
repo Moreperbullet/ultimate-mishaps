@@ -510,8 +510,8 @@ public class MishapUnitTypes{
             flying = true;
             health = 690;
 
-            engineSize = 2.7f;
-            engineOffset = 12f;
+            engineSize = 3.2f;
+            engineOffset = 13f;
     
             targetFlags = new BlockFlag[]{BlockFlag.generator, BlockFlag.battery, null};
             hitSize = 20;
