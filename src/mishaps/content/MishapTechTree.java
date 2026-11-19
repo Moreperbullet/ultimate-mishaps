@@ -85,11 +85,12 @@ public class MishapTechTree{
             ));
         });
  
-        vanillaNode(payloadConveyor, () -> {
+        vanillaNode(payloadRouter, () -> {
             node(payloadForwarder, () -> {
                 node(sConstructor, Seq.with(
                     new Research(mega)
                 ), () -> {
+                    node(payloadDistributor);
                     node(sDeconstructor);
                     node(sPayloadLoader, () -> {
                         node(sPayloadUnloader);
@@ -138,8 +139,10 @@ public class MishapTechTree{
             });
         });
 
-        vanillaNode("erekir", reinforcedPayloadConveyor, () -> {
-            node(reinforcedPayloadForwarder);
+        vanillaNode("erekir", reinforcedPayloadRouter, () -> {
+            node(reinforcedPayloadForwarder, () -> {
+                node(reinforcedPayloadDistributor);
+            });
         });
     }
 
