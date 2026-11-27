@@ -1,5 +1,7 @@
 package mishaps.world.blocks;
 
+import arc.*;
+import arc.audio.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.struct.*;
@@ -11,6 +13,8 @@ import mindustry.entities.*;
 import mindustry.graphics.*;
 import mindustry.gen.*;
 import mindustry.world.*;
+import mindustry.world.meta.*;
+import mishaps.world.meta.*;
 
 import static mindustry.Vars.*;
 
@@ -21,20 +25,28 @@ public class PulseOrbBlock extends Block{
 
     private static long lastUpdateFrame = -1;
 
-    public float minRange = 5f * 8f,
+    public float minRange = 7f * 8f,
            maxRange = 20f * 8f,
            growSpeed = 0.4f,
-           damage = 2f;
+           damage = 6f;
 
-    public Color orbColor = Pal.regen;
+    public Color orbColor = Color.valueOf("8ca9e8");
 
-    public Effect effect = Fx.regenParticle;
+    public Sound shootSound = Sounds.beamParallax;
+    public float shootSoundVolume = 0.9f;
 
     public PulseOrbBlock(String name){
         super(name);
         update = true;
         solid = true;
-        suppressable = true;
+    }
+
+    @Override
+    public void setStats(){
+        super.setStats();
+
+        stats.add(MishapStats.special, Core.bundle.format("special.varying-range", minRange / 8, maxRange / 8));
+        if(damage > 0) stats.add(Stat.damage, damage * 60f, StatUnit.perSecond);
     }
 
     @Override
@@ -46,30 +58,38 @@ public class PulseOrbBlock extends Block{
     }
 
     public class PulseOrbBuild extends Building{
-        public float realRange = minRange, hit;
+        public float baseRange = minRange, rangeScl, hit, warmup;
         public boolean expanding, touched;
 
         @Override
         public void updateTile(){
             targets.clear();
 
-            Units.nearbyEnemies(team, x, y, realRange, enemy -> {
+            if(efficiency > 0){
+                consume();
+            }
+
+            rangeScl = Mathf.lerpDelta(rangeScl, checkSuppression() ? 0f : warmup, 0.05f);
+
+            warmup = Mathf.lerpDelta(warmup, efficiency, 0.1f);
+
+            Units.nearbyEnemies(team, x, y, realRange(), enemy -> {
                 if(enemy.targetable(team)) targets.add(enemy);
             });
 
-            touched = (targets.size > 0) && !checkSuppression();
+            touched = targets.size > 0;
 
             if(touched){
                 hit = 1f;
-                if(realRange < maxRange) expanding = true;
+                if(baseRange < maxRange) expanding = true;
             }else{
                 if(hit < 0.09f) expanding = false;
             }
 
             if(touched && expanding){
-                realRange = Math.min(maxRange, realRange + growSpeed * Time.delta);
+                baseRange = Math.min(maxRange, baseRange + growSpeed * Time.delta);
             }else if(!expanding && hit < 0.09f){
-                realRange = Math.max(minRange, realRange - growSpeed * Time.delta);
+                baseRange = Math.max(minRange, baseRange - growSpeed * Time.delta);
             }
 
             if(hit > 0){
@@ -80,13 +100,15 @@ public class PulseOrbBlock extends Block{
 
             for(int i = 0; i < targets.size; i++){
                 Unit other = targets.get(i);
-                if(other.dst(x, y) < realRange){
+                if(other.dst(x, y) < realRange()){
                     int id = other.id;
                     float rawDamage = damage * state.rules.blockDamage(team);
 
                     orbMap.put(id, Math.max(orbMap.get(id), rawDamage));
                 }
             }
+
+            if(targets.size > 0 && !headless) control.sound.loop(shootSound, this, shootSoundVolume);
 
             if(lastUpdateFrame != state.updateId){
                 lastUpdateFrame = state.updateId;
@@ -100,28 +122,41 @@ public class PulseOrbBlock extends Block{
             }
         }
 
+        public float realRange(){
+            return baseRange * rangeScl;
+        }
+
         @Override
         public void draw(){
+            super.draw();
+            drawOrb();
+        }
+
+        public void drawOrb(){
             Draw.color(orbColor, Color.white, Mathf.clamp(hit));
             Draw.z(Layer.flyingUnit + 1f);
             Lines.stroke(1.5f);
             Draw.alpha(0.09f + Mathf.clamp(0.08f * hit));
-            Fill.circle(x, y, realRange);
+            Fill.circle(x, y, realRange());
             Draw.alpha(1f);
-            Lines.circle(x, y, realRange);
+            Lines.circle(x, y, realRange());
             Draw.reset();
         }
 
         @Override
         public void write(Writes write){
             super.write(write);
-            write.f(realRange);
+            write.f(baseRange);
+            write.f(rangeScl);
+            write.f(warmup);
         }
 
         @Override
         public void read(Reads read){
             super.read(read);
-            realRange = read.f();
+            baseRange = read.f();
+            rangeScl = read.f();
+            warmup = read.f();
         }
     }
 }
