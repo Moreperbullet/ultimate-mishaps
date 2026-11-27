@@ -37,7 +37,7 @@ public class MishapBlocks{
     //other
     surgeLink, plastaniumDeflectWall, deflectWallLarge, aquamarineWall, aquamarineWallLarge, densityProjector,
     //turrets
-    vampirism, devastation;
+    vampirism, devastation, cursive;
 
     public static void load(){
 
@@ -524,6 +524,12 @@ public class MishapBlocks{
             coolant = consumeCoolant(1.25f);
 
             consumePower(11.5f);
+        }};
+
+        cursive = new PulseOrbBlock("cursive"){{
+            requirements(Category.turret, with(Items.tungsten, 1, Items.thorium, 1));
+            size = 3;
+            consumePower(5f);
         }};
     }
 }

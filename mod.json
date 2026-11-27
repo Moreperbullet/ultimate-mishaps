@@ -3,7 +3,7 @@
     "displayName": "Ultimate Mishaps",
     "description": "A java mod",
     "version": "0.0.1",
-    "minGameVersion": "160.7",
+    "minGameVersion": "160.8",
     "author": "Moreperbullet",
     "java": true,
     "main": "mishaps.MishapsMod",

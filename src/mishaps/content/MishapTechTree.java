@@ -110,7 +110,7 @@ public class MishapTechTree{
             node(vampirism);
         });
 
-        vanillaNode(nova, () -> {
+        vanillaNode(dagger, () -> {
             node(relayer, Seq.with(
                 new Research(aphid)
             ), () -> {
@@ -124,7 +124,7 @@ public class MishapTechTree{
             });
         });
 
-        vanillaNode(mono, () -> {
+        vanillaNode(flare, () -> {
             node(aphid, Seq.with(
                 new SectorComplete(windsweptIslands)
             ), () -> {
