@@ -527,9 +527,29 @@ public class MishapBlocks{
         }};
 
         cursive = new PulseOrbBlock("cursive"){{
-            requirements(Category.turret, with(Items.tungsten, 1, Items.thorium, 1));
+            requirements(Category.turret, with(Items.tungsten, 70, Items.thorium, 35, Items.silicon, 50, Items.surgeAlloy, 30));
             size = 3;
-            consumePower(5f);
+            Color col = orbColor;
+            consumePower(2f);
+            consumeLiquid(Liquids.hydrogen, 2f / 60f);
+            consumeItem(Items.silicon);
+
+            drawer = new DrawMulti(
+                new DrawRegion("-bottom"),
+                new DrawLiquidTile(Liquids.hydrogen),
+                new DrawDefault(),
+                new DrawGlowRegion(){{
+                    color = col;
+                }},
+                new DrawShape(){{
+                    layer = Layer.effect;
+                    color = col;
+                    radius = 4f;
+                    useWarmupRadius = true;
+                    sides = 6;
+                    timeScl = 2f;
+                }}
+            );
         }};
     }
 }
