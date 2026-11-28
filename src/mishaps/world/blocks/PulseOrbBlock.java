@@ -106,6 +106,11 @@ public class PulseOrbBlock extends Block{
         public void updateTile(){
             targets.clear();
 
+            if(accumulator >= itemUseTime){
+                consume();
+                accumulator -= itemUseTime;
+            }
+
             rangeScl = Mathf.lerpDelta(rangeScl, checkSuppression() ? 0f : warmup, 0.05f);
 
             warmup = Mathf.lerpDelta(warmup, efficiency, 0.1f);
@@ -134,11 +139,6 @@ public class PulseOrbBlock extends Block{
             }
 
             if(efficiency > 0){
-                if(accumulator >= itemUseTime){
-                    consume();
-                    accumulator -= itemUseTime;
-                }
-
                 for(int i = 0; i < targets.size; i++){
                     Unit other = targets.get(i);
                     if(other.dst(x, y) < realRange()){               
@@ -199,6 +199,7 @@ public class PulseOrbBlock extends Block{
         @Override
         public void write(Writes write){
             super.write(write);
+            Log.info("if this doesn't work idk what will");
             write.f(baseRange);
             write.f(rangeScl);
             write.f(warmup);
@@ -207,6 +208,7 @@ public class PulseOrbBlock extends Block{
         @Override
         public void read(Reads read){
             super.read(read);
+            Log.info("if this doesn't work idk what will");
             baseRange = read.f();
             rangeScl = read.f();
             warmup = read.f();
