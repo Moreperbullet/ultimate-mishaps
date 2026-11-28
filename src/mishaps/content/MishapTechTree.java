@@ -144,6 +144,10 @@ public class MishapTechTree{
                 node(reinforcedPayloadDistributor);
             });
         });
+
+        vanillaNode("erekir", disperse, () -> {
+            node(cursive);
+        });
     }
 
     private static void vanillaNode(UnlockableContent parent, Runnable children){

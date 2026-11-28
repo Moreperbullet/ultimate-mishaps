@@ -184,22 +184,20 @@ public class PulseOrbBlock extends Block{
             Draw.reset();
         }
 
-        /*@Override
+        @Override
         public void write(Writes write){
             super.write(write);
-            Log.info("if this doesn't work idk what will");
             write.f(baseRange);
-            write.f(rangeScl);
             write.f(warmup);
-        }*/
+            write.f(rangeScl);
+        }
 
-        /*@Override
-        public void read(Reads read){
-            super.read(read);
-            Log.info("if this doesn't work idk what will");
+        @Override
+        public void read(Reads read, byte revision){
+            super.read(read, revision);
             baseRange = read.f();
-            rangeScl = read.f();
             warmup = read.f();
-        }*/
+            rangeScl = read.f();
+        }
     }
 }
