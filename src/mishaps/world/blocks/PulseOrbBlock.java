@@ -31,7 +31,8 @@ public class PulseOrbBlock extends Block{
     public float minRange = 7f * 8f,
            maxRange = 20f * 8f,
            growSpeed = 0.4f,
-           damage = 11f;
+           damage = 11f,
+           useTime = 75f;
 
     public DrawBlock drawer = new DrawDefault();
 
@@ -46,6 +47,10 @@ public class PulseOrbBlock extends Block{
         solid = true;
         hasPower = true;
         envEnabled |= Env.space;
+        //acts like a projector, but is a honorary turret
+        priority = TargetPriority.turret;
+        group = BlockGroup.turrets;
+        flags = EnumSet.of(BlockFlag.turret);
     }
 
     @Override
@@ -71,6 +76,7 @@ public class PulseOrbBlock extends Block{
 
     @Override
     public void setStats(){
+        stats.timePeriod = useTime;
         super.setStats();
 
         stats.add(MishapStats.special, Core.bundle.format("special.varying-range", minRange / 8, maxRange / 8));
@@ -86,7 +92,7 @@ public class PulseOrbBlock extends Block{
     }
 
     public class PulseOrbBuild extends Building implements Ranged{
-        public float baseRange = minRange, rangeScl, hit, warmup, accumulator;
+        public float baseRange = minRange, rangeScl, hit, warmup, useTimer;
         public boolean expanding, touched;
 
         @Override
@@ -103,7 +109,10 @@ public class PulseOrbBlock extends Block{
         public void updateTile(){
             targets.clear();
 
-            consume();
+            if((useTimer += Time.delta) >= useTime){
+                consume();
+                useTimer %= useTime;
+            }
 
             rangeScl = Mathf.lerpDelta(rangeScl, checkSuppression() ? 0f : warmup, 0.05f);
 
@@ -188,16 +197,16 @@ public class PulseOrbBlock extends Block{
         public void write(Writes write){
             super.write(write);
             write.f(baseRange);
-            write.f(warmup);
             write.f(rangeScl);
+            write.f(warmup);
         }
 
         @Override
         public void read(Reads read, byte revision){
             super.read(read, revision);
             baseRange = read.f();
-            warmup = read.f();
             rangeScl = read.f();
+            warmup = read.f();
         }
     }
 }
