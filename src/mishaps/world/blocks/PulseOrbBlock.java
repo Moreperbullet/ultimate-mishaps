@@ -31,8 +31,7 @@ public class PulseOrbBlock extends Block{
     public float minRange = 7f * 8f,
            maxRange = 20f * 8f,
            growSpeed = 0.4f,
-           damage = 11f,
-           itemUseTime = 100f;
+           damage = 11f;
 
     public DrawBlock drawer = new DrawDefault();
 
@@ -72,12 +71,10 @@ public class PulseOrbBlock extends Block{
 
     @Override
     public void setStats(){
-        stats.timePeriod = itemUseTime;
         super.setStats();
 
         stats.add(MishapStats.special, Core.bundle.format("special.varying-range", minRange / 8, maxRange / 8));
         if(damage > 0) stats.add(Stat.damage, damage * 60f, StatUnit.perSecond);
-        stats.add(Stat.productionTime, itemUseTime / 60f, StatUnit.seconds);
     }
 
     @Override
@@ -106,10 +103,7 @@ public class PulseOrbBlock extends Block{
         public void updateTile(){
             targets.clear();
 
-            if(accumulator >= itemUseTime){
-                consume();
-                accumulator -= itemUseTime;
-            }
+            consume();
 
             rangeScl = Mathf.lerpDelta(rangeScl, checkSuppression() ? 0f : warmup, 0.05f);
 
@@ -148,7 +142,6 @@ public class PulseOrbBlock extends Block{
                     }
                 }
             }
-            accumulator += delta() * efficiency;
 
             if(targets.size > 0 && !headless) control.sound.loop(shootSound, this, shootSoundVolume);
 
@@ -162,11 +155,6 @@ public class PulseOrbBlock extends Block{
                 }
                 orbMap.clear();
             }
-        }
-
-        @Override
-        public boolean shouldConsume(){
-            return touched;
         }
 
         public float realRange(){
@@ -196,22 +184,22 @@ public class PulseOrbBlock extends Block{
             Draw.reset();
         }
 
-        @Override
+        /*@Override
         public void write(Writes write){
             super.write(write);
             Log.info("if this doesn't work idk what will");
             write.f(baseRange);
             write.f(rangeScl);
             write.f(warmup);
-        }
+        }*/
 
-        @Override
+        /*@Override
         public void read(Reads read){
             super.read(read);
             Log.info("if this doesn't work idk what will");
             baseRange = read.f();
             rangeScl = read.f();
             warmup = read.f();
-        }
+        }*/
     }
 }
